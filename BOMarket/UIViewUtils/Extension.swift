@@ -11,9 +11,12 @@ import Foundation
 import UIKit
 
 extension UIView {
+    func LoadNibWithName(nibName: String) -> UINib{
+        //let bundle = Bundle(for: type(of: self))
+        let nib = UINib(nibName: nibName, bundle: nil)
+        return nib
+    }
     func LoadFileFromNib(nibName: String) -> UIView!{
-        let bundle = Bundle(for: type(of: self))
-        let nib = UINib(nibName: nibName, bundle: bundle)
-        return nib.instantiate(withOwner: self, options: nil).first as? UIView
+        return LoadNibWithName(nibName: nibName).instantiate(withOwner: self, options: nil).first as? UIView
     }
 }

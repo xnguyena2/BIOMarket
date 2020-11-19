@@ -16,7 +16,12 @@
 		3450877325120360008FF712 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3450877125120360008FF712 /* LaunchScreen.storyboard */; };
 		3450877E25120361008FF712 /* BOMarketTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3450877D25120361008FF712 /* BOMarketTests.swift */; };
 		3450878925120361008FF712 /* BOMarketUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3450878825120361008FF712 /* BOMarketUITests.swift */; };
-		34B423182541E28F00E01DB0 /* Carousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B423172541E28F00E01DB0 /* Carousel.swift */; };
+		34B423182541E28F00E01DB0 /* MyCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B423172541E28F00E01DB0 /* MyCarousel.swift */; };
+		8743603F2563FE4000F3B1CA /* BeerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8743603D2563FE4000F3B1CA /* BeerCollectionViewCell.swift */; };
+		874360402563FE4000F3B1CA /* BeerCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8743603E2563FE4000F3B1CA /* BeerCollectionViewCell.xib */; };
+		87AEC3562562088C0090C683 /* MainCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AEC3552562088C0090C683 /* MainCollectionViewDataSource.swift */; };
+		87AEC38425621B600090C683 /* CarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87AEC38225621B600090C683 /* CarouselCollectionViewCell.swift */; };
+		87AEC38525621B600090C683 /* CarouselCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 87AEC38325621B600090C683 /* CarouselCollectionViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +57,12 @@
 		3450878425120361008FF712 /* BOMarketUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BOMarketUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3450878825120361008FF712 /* BOMarketUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BOMarketUITests.swift; sourceTree = "<group>"; };
 		3450878A25120361008FF712 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		34B423172541E28F00E01DB0 /* Carousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Carousel.swift; sourceTree = "<group>"; };
+		34B423172541E28F00E01DB0 /* MyCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCarousel.swift; sourceTree = "<group>"; };
+		8743603D2563FE4000F3B1CA /* BeerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeerCollectionViewCell.swift; sourceTree = "<group>"; };
+		8743603E2563FE4000F3B1CA /* BeerCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BeerCollectionViewCell.xib; sourceTree = "<group>"; };
+		87AEC3552562088C0090C683 /* MainCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewDataSource.swift; sourceTree = "<group>"; };
+		87AEC38225621B600090C683 /* CarouselCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionViewCell.swift; sourceTree = "<group>"; };
+		87AEC38325621B600090C683 /* CarouselCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CarouselCollectionViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +121,8 @@
 		345087652512034B008FF712 /* BOMarket */ = {
 			isa = PBXGroup;
 			children = (
+				874360312563F1BB00F3B1CA /* BeerItem */,
+				87AEC354256207FA0090C683 /* CollectionView */,
 				340BB07A25427F47007E275D /* UIViewUtils */,
 				34B423162541E13D00E01DB0 /* Carousel */,
 				345087662512034B008FF712 /* AppDelegate.swift */,
@@ -145,9 +157,28 @@
 		34B423162541E13D00E01DB0 /* Carousel */ = {
 			isa = PBXGroup;
 			children = (
-				34B423172541E28F00E01DB0 /* Carousel.swift */,
+				34B423172541E28F00E01DB0 /* MyCarousel.swift */,
+				87AEC38225621B600090C683 /* CarouselCollectionViewCell.swift */,
+				87AEC38325621B600090C683 /* CarouselCollectionViewCell.xib */,
 			);
 			path = Carousel;
+			sourceTree = "<group>";
+		};
+		874360312563F1BB00F3B1CA /* BeerItem */ = {
+			isa = PBXGroup;
+			children = (
+				8743603D2563FE4000F3B1CA /* BeerCollectionViewCell.swift */,
+				8743603E2563FE4000F3B1CA /* BeerCollectionViewCell.xib */,
+			);
+			path = BeerItem;
+			sourceTree = "<group>";
+		};
+		87AEC354256207FA0090C683 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				87AEC3552562088C0090C683 /* MainCollectionViewDataSource.swift */,
+			);
+			path = CollectionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,6 +285,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87AEC38525621B600090C683 /* CarouselCollectionViewCell.xib in Resources */,
+				874360402563FE4000F3B1CA /* BeerCollectionViewCell.xib in Resources */,
 				3450877325120360008FF712 /* LaunchScreen.storyboard in Resources */,
 				3450877025120360008FF712 /* Assets.xcassets in Resources */,
 				3450876E2512034B008FF712 /* Main.storyboard in Resources */,
@@ -281,10 +314,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87AEC38425621B600090C683 /* CarouselCollectionViewCell.swift in Sources */,
 				3450876B2512034B008FF712 /* ViewController.swift in Sources */,
+				87AEC3562562088C0090C683 /* MainCollectionViewDataSource.swift in Sources */,
 				345087672512034B008FF712 /* AppDelegate.swift in Sources */,
+				8743603F2563FE4000F3B1CA /* BeerCollectionViewCell.swift in Sources */,
 				345087692512034B008FF712 /* SceneDelegate.swift in Sources */,
-				34B423182541E28F00E01DB0 /* Carousel.swift in Sources */,
+				34B423182541E28F00E01DB0 /* MyCarousel.swift in Sources */,
 				340BB07C25427F8A007E275D /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -467,7 +503,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Buffchalo.BOMarket;
+				PRODUCT_BUNDLE_IDENTIFIER = Buffchalo.BOMarket.Phong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -485,7 +521,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = Buffchalo.BOMarket;
+				PRODUCT_BUNDLE_IDENTIFIER = Buffchalo.BOMarket.Phong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

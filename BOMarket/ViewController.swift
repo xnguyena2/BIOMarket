@@ -9,14 +9,15 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    @IBOutlet weak var carousel: Carousel!
+    
+    @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        self.InitCollectionView(collectionView: collectionView)
     }
-
-
 }
 
