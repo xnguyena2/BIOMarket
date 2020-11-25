@@ -30,7 +30,7 @@ class CarouselCollectionViewCell: UICollectionViewCell {
         if !doneLoad{
             LoadImage(img: "1")
             LoadImage(img: "2")
-            LoadImage(img: "3")
+            //LoadImage(img: "3")
             doneLoad = true
         }
     }

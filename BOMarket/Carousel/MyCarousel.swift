@@ -19,7 +19,7 @@ final class MyRecognizer: UIGestureRecognizer {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
         super.touchesBegan(touches, with: event)
         if event.touches(for: self)?.count == 1, let touch = touches.first {
-            mainView?.touchesBegan(startPoint: touch.location(in: nil))
+            mainView?.touchesBegan(startPoint: touch.location(in: mainView))
         }
     }
     
@@ -27,7 +27,7 @@ final class MyRecognizer: UIGestureRecognizer {
         super.touchesMoved(touches, with: event)
         if event.touches(for: self)?.count == 1, let touch = touches.first {
             print("num: \(touches.count)")
-            mainView?.touchesMoved(currrentPoint: touch.location(in: nil))
+            mainView?.touchesMoved(currrentPoint: touch.location(in: mainView))
         }
     }
     
@@ -46,6 +46,8 @@ final class MyRecognizer: UIGestureRecognizer {
 }
 
 final class CarouselItem {
+    
+    let delegate: TimerSwitch
     
     let autoLayout = true
     
@@ -67,13 +69,16 @@ final class CarouselItem {
     
     var currentSide = MoveDirection.Center
     
-    let xCarouselPading:CGFloat = 30
-    let yCarouselPading:CGFloat = 30
+    let xCarouselPading:CGFloat = 10
+    let yCarouselPading:CGFloat = 10
     
     lazy var contentView: UIImageView = {
         let contentView = UIImageView()
         contentView.image = UIImage(named: imageName)
-        contentView.backgroundColor = .gray
+        contentView.backgroundColor = .white
+        contentView.layer.cornerRadius = 20
+        contentView.contentMode = .scaleAspectFit
+        contentView.layer.zPosition = 1
         if autoLayout{
             contentView.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -93,11 +98,12 @@ final class CarouselItem {
     
     var startFrame: CGRect?
     
-    init(container: UIView, img: String) {
+    init(container: UIView, img: String, timerSwitch: TimerSwitch) {
         self.imageName = img
         self.container = container
         self.containerWidth = container.frame.size.width
         self.containerHeight = container.frame.size.height
+        self.delegate = timerSwitch
     }
     
     public func GetUIImage() -> UIImageView {
@@ -158,22 +164,26 @@ final class CarouselItem {
             //print("resettttttttt\(containerWidth)")
             self.containerWidth = containerWidth
             self.containerHeight = containerHeight
-            if autoLayout{
-                if currentSide == .Center{
-                    AlinCenter()
-                }else if currentSide == .Left{
-                    AlinLeft()
-                }else if currentSide == .Right{
-                    AlinRight()
-                }
-            }else{
-                if currentSide == .Center{
-                    InitAlinCenter()
-                }else if currentSide == .Left{
-                    InitAlinLeft()
-                }else if currentSide == .Right{
-                    InitAlinRight()
-                }
+            ResetPosition()
+        }
+    }
+    
+    func ResetPosition(){
+        if autoLayout{
+            if currentSide == .Center{
+                AlinCenter()
+            }else if currentSide == .Left{
+                AlinLeft()
+            }else if currentSide == .Right{
+                AlinRight()
+            }
+        }else{
+            if currentSide == .Center{
+                InitAlinCenter()
+            }else if currentSide == .Left{
+                InitAlinLeft()
+            }else if currentSide == .Right{
+                InitAlinRight()
             }
         }
     }
@@ -256,6 +266,8 @@ final class CarouselItem {
             self.AlinLeft()
             self.container.layoutIfNeeded()
         }, completion: {result in
+            self.currentSide = .Left
+            self.delegate.TimerSwitch(enable: true)
             //print("Go to Left")
         })
     }
@@ -265,6 +277,8 @@ final class CarouselItem {
             self.AlinRight()
             self.container.layoutIfNeeded()
         }, completion: {result in
+            self.currentSide = .Right
+            self.delegate.TimerSwitch(enable: true)
             //print("Goto Right")
         })
     }
@@ -274,16 +288,21 @@ final class CarouselItem {
             self.AlinCenter()
             self.container.layoutIfNeeded()
         }, completion: {result in
+            self.currentSide = .Center
+            self.delegate.TimerSwitch(enable: true)
             //print("Go to Center")
         })
     }
     
     public func EndTouched(direction: MoveDirection, timeEplase: Double, mainDuration: Double) -> (MoveDirection, Double){
+        if startPoint == nil && startFrame == nil{
+            return (currentSide, 0)
+        }
         startPoint = nil
         startFrame = nil
         if timeEplase  == 0{
             print("you touch too fast!!!!!!!!!!")
-            return (currentSide,0)
+            return (currentSide, 0)
         }
         
         if currentSide == .Center{
@@ -291,30 +310,33 @@ final class CarouselItem {
             print("speed: \(speed)")
             if translateOffet > containerWidth/2 || (translateOffet>0 && speed > goNextSpeed){
                 let dur = Double(containerWidth - translateOffet)/speed
-                animateToRight(duration: TimeInterval(dur))
-                return (.Right,dur)
+                let interval = dur > maxTimeEplase ? maxTimeEplase : dur
+                animateToRight(duration: TimeInterval(interval))
+                return (.Right,interval)
             }else if translateOffet < -containerWidth/2 || (translateOffet<0 && speed > goNextSpeed){
                 let dur = Double(containerWidth + translateOffet)/speed
-                animateToLeft(duration: TimeInterval(dur))
-                return (.Left, dur)
+                let interval = dur > maxTimeEplase ? maxTimeEplase : dur
+                animateToLeft(duration: TimeInterval(interval))
+                return (.Left, interval)
             }
             let correctTime = timeEplase > maxTimeEplase ? maxTimeEplase : timeEplase
             animateToCenter(duration: TimeInterval(correctTime))
-            return (.Center,correctTime)
-        }else if currentSide == .Left{
+            return (.Center, correctTime)
+        }else if currentSide == .Left && mainDuration != 0{
             if direction == .Right{
                 animateToCenter(duration: TimeInterval(mainDuration))
             }else {
                 animateToLeft(duration: TimeInterval(mainDuration))
             }
-        }else if currentSide ==  .Right{
+        }else if currentSide ==  .Right && mainDuration != 0{
             if direction == .Left{
                 animateToCenter(duration: TimeInterval(mainDuration))
             }else{
                 animateToRight(duration: TimeInterval(mainDuration))
             }
         }
-        return (.Center,0)
+        translateOffet = 0
+        return (.Center, 0)
     }
 }
 
@@ -322,7 +344,11 @@ protocol ScrollStateDelegate: AnyObject {
     func ChangeScrollState(enable: Bool)
 }
 
-final class Carousel: UIView {
+protocol TimerSwitch {
+    func TimerSwitch(enable: Bool)
+}
+
+final class Carousel: UIView, TimerSwitch {
     
     let usingCustomeRecognizer = true
     
@@ -343,6 +369,8 @@ final class Carousel: UIView {
     var currentDirection: CarouselItem.MoveDirection = .Center
     
     var listCrs = [CarouselItem]()
+    
+    var goNext: Bool = false
     
     lazy var indexPreview:UIStackView = {
         let stackView = UIStackView()
@@ -373,7 +401,7 @@ final class Carousel: UIView {
         if currentIndex == -1{
             currentIndex = 0
         }
-        let item = CarouselItem(container:self, img: img)
+        let item = CarouselItem(container:self, img: img, timerSwitch: self)
         listCrs.append(item)
         addSubview(item.GetUIImage())
         if listCrs.count == 1{
@@ -395,12 +423,13 @@ final class Carousel: UIView {
         //add carousel-index
         
         addSubview(indexPreview)
+        indexPreview.layer.zPosition = 1000
         indexPreview.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         indexPreview.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -indexContainerPading).isActive = true
         
         //
         
-        backgroundColor = .red
+        backgroundColor = .systemGray4
         
         for item in listCrs {
             addSubview(item.GetUIImage())
@@ -414,6 +443,8 @@ final class Carousel: UIView {
             gesture.setMainView(mainView: self)
             self.addGestureRecognizer(gesture)
         }
+        
+        createTimer()
         
         print("done setup layout!")
     }
@@ -432,7 +463,7 @@ final class Carousel: UIView {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
         if event?.touches(for: self)?.count==1, let touch = touches.first {
-            print("num: \(touches.count)")
+            print("default-num: \(touches.count)")
             touchesMoved(currrentPoint: touch.location(in: self))
         }
     }
@@ -452,6 +483,39 @@ final class Carousel: UIView {
     
     
     
+    
+    // time go next
+    var timer:Timer?
+    func createTimer(){
+        timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(runTimedCode), userInfo: nil, repeats: true)
+    }
+    
+    @objc func runTimedCode(){
+        //print("go next")
+        if !touching && listCrs.count > 0{
+            if goNext{
+                goNext = false
+                return
+            }
+            let currentNext = getNext()
+            if listCrs[currentNext].currentSide == .Left {
+                listCrs[currentNext].AlinRight()
+                layoutIfNeeded()
+            }
+            
+            listCrs[currentIndex].animateToLeft(duration: TimeInterval(Double(0.2)))
+            listCrs[currentNext].animateToCenter(duration: TimeInterval(Double(0.2)))
+            activeIndex(oldIndex: currentIndex, newIndex: currentNext)
+            currentIndex = currentNext
+            delegate?.ChangeScrollState(enable: true)
+        }
+    }
+    
+    func TimerSwitch(enable: Bool){
+        goNext = true
+        touching = false
+        finishedAnimation=true
+    }
     
     
     func addIndex(){
@@ -512,19 +576,25 @@ final class Carousel: UIView {
     var startTime =  DispatchTime.now()
     var endTime = DispatchTime.now()
     
+    var touching = false
+    var finishedAnimation = true
+    
     public func touchesBegan(startPoint: CGPoint){
-        delegate?.ChangeScrollState(enable: false)
-        print("Began")
-        if currentIndex != -1{
-            self.startPoint = startPoint
-            startTime = DispatchTime.now()
-            listCrs[currentIndex].TouchesBegan(startPoint: startPoint)
+        touching = true
+        if finishedAnimation {
+            delegate?.ChangeScrollState(enable: false)
+            print("Began")
+            if currentIndex != -1{
+                self.startPoint = startPoint
+                startTime = DispatchTime.now()
+                listCrs[currentIndex].TouchesBegan(startPoint: startPoint)
+            }
         }
     }
     
     public func touchesMoved(currrentPoint: CGPoint){
         print("Moved")
-        if currentIndex != -1 {
+        if currentIndex != -1 && finishedAnimation {
             let direction = listCrs[currentIndex].TouchesMoved(currentPoint: currrentPoint)
             if direction != currentDirection {
                 currentDirection = direction
@@ -548,6 +618,7 @@ final class Carousel: UIView {
     
     public func touchesEnded(){
         print("End")
+        finishedAnimation = false
         delegate?.ChangeScrollState(enable: true)
         currentDirection = .Center
         if currentIndex != -1 {
@@ -555,6 +626,11 @@ final class Carousel: UIView {
             let timeElapse = Double(endTime.uptimeNanoseconds - startTime.uptimeNanoseconds) / 1_000_000_000
             
             let (moveDir, mainDuration) = listCrs[currentIndex].EndTouched(direction: .Center, timeEplase: timeElapse, mainDuration: 0)
+            if mainDuration == 0 {
+                print("Something wrong!")
+                finishedAnimation = true
+                return
+            }
             if folowIndex != -1 {
                 _ = listCrs[folowIndex].EndTouched(direction: moveDir, timeEplase: timeElapse, mainDuration: mainDuration)
             }
