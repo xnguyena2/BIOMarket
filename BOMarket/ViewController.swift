@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     
     let SearchBarHeight = CGFloat(40)
-    let HeaderMaxHeight = CGFloat(90)
+    let HeaderMaxHeight = CGFloat(95)
     let Duration = TimeInterval(0.2)
     let SearchBarMinTrailingConst = CGFloat(18)
     
@@ -46,11 +46,7 @@ class ViewController: UIViewController {
         //sometime start scroll when
         dragging = true
         startScrollY = scrollView.contentOffset.y
-        print("scroll Begin: \(startScrollY)")
-    }
-    
-    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        print("scroll end animation")
+        //print("scroll Begin: \(startScrollY)")
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -58,12 +54,12 @@ class ViewController: UIViewController {
         if !decelerate{
             fitSearchBar(scrollView, willDecelerate: decelerate)
         }
-        print("End draging")
+        //print("End draging")
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         fitSearchBar(scrollView, willDecelerate: false)
-        print("done...")
+        //print("done...")
     }
     
     func applyChange(byOffset offset:CGFloat){
@@ -114,9 +110,9 @@ class ViewController: UIViewController {
     func fitSearchBar(_ scrollView: UIScrollView, willDecelerate decelerate: Bool){
         let currentOffset = scrollView.contentOffset.y
         let currentHeight = headerHeight.constant
-        print("currentHeight: \(currentHeight) currentOffset:\(currentOffset)")
+        //print("currentHeight: \(currentHeight) currentOffset:\(currentOffset)")
         if !decelerate && currentOffset < 0.8*SearchBarHeight && !alredyBottom{
-            print("Go top")
+            //print("Go top")
             alredyBottom = true
             alredyTop = false
             //scrollView.setContentOffset(CGPoint.zero, animated: false)
@@ -126,7 +122,7 @@ class ViewController: UIViewController {
         }else{
             if currentHeight < 0.8*HeaderMaxHeight {
                 if !alredyTop{
-                    print("Animation to top")
+                    //print("Animation to top")
                     UIView.animate(withDuration: Duration, animations: {
                         self.headerHeight.constant = self.HeaderMaxHeight - self.SearchBarHeight
                         self.trailPaddingAndAlpha()
@@ -136,7 +132,7 @@ class ViewController: UIViewController {
                     })
                 }
             }else if !alredyBottom{
-                print("Animation to bottom")
+                //print("Animation to bottom")
                 UIView.animate(withDuration: Duration, animations: {
                     self.headerHeight.constant = self.HeaderMaxHeight
                     self.trailPaddingAndAlpha()

@@ -58,7 +58,7 @@ final class CarouselItem {
     
     let container:UIView
     
-    let maxTimeEplase:Double = 0.2
+    let maxTimeEplase:Double = 0.15
     
     
     public enum MoveDirection{
@@ -294,6 +294,10 @@ final class CarouselItem {
         })
     }
     
+    private func getCorrectDuration(_ dur:Double) -> Double{
+        return min(dur, maxTimeEplase)
+    }
+    
     public func EndTouched(direction: MoveDirection, timeEplase: Double, mainDuration: Double) -> (MoveDirection, Double){
         if startPoint == nil && startFrame == nil{
             return (currentSide, 0)
@@ -310,16 +314,16 @@ final class CarouselItem {
             print("speed: \(speed)")
             if translateOffet > containerWidth/2 || (translateOffet>0 && speed > goNextSpeed){
                 let dur = Double(containerWidth - translateOffet)/speed
-                let interval = dur > maxTimeEplase ? maxTimeEplase : dur
+                let interval = getCorrectDuration(dur)
                 animateToRight(duration: TimeInterval(interval))
                 return (.Right,interval)
             }else if translateOffet < -containerWidth/2 || (translateOffet<0 && speed > goNextSpeed){
                 let dur = Double(containerWidth + translateOffet)/speed
-                let interval = dur > maxTimeEplase ? maxTimeEplase : dur
+                let interval = getCorrectDuration(dur)
                 animateToLeft(duration: TimeInterval(interval))
                 return (.Left, interval)
             }
-            let correctTime = timeEplase > maxTimeEplase ? maxTimeEplase : timeEplase
+            let correctTime = getCorrectDuration(timeEplase)
             animateToCenter(duration: TimeInterval(correctTime))
             return (.Center, correctTime)
         }else if currentSide == .Left && mainDuration != 0{
