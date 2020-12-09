@@ -17,14 +17,14 @@ final class MyRecognizer: UIGestureRecognizer {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
-        super.touchesBegan(touches, with: event)
+        //super.touchesBegan(touches, with: event)
         if event.touches(for: self)?.count == 1, let touch = touches.first {
             mainView?.touchesBegan(startPoint: touch.location(in: mainView))
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
-        super.touchesMoved(touches, with: event)
+        //super.touchesMoved(touches, with: event)
         if event.touches(for: self)?.count == 1, let touch = touches.first {
             print("num: \(touches.count)")
             mainView?.touchesMoved(currrentPoint: touch.location(in: mainView))
@@ -32,13 +32,13 @@ final class MyRecognizer: UIGestureRecognizer {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
-        super.touchesEnded(touches, with: event)
+        //super.touchesEnded(touches, with: event)
         mainView.touchesEnded()
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
         print("cancel touch")
-        super.touchesCancelled(touches, with: event)
+        //super.touchesCancelled(touches, with: event)
         mainView.touchesEnded()
     }
     
@@ -458,14 +458,14 @@ final class Carousel: UIView, TimerSwitch {
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
+        //super.touchesBegan(touches, with: event)
         if event?.touches(for: self)?.count==1, let touch = touches.first {
             touchesBegan(startPoint: touch.location(in: self))
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesMoved(touches, with: event)
+        //super.touchesMoved(touches, with: event)
         if event?.touches(for: self)?.count==1, let touch = touches.first {
             print("default-num: \(touches.count)")
             touchesMoved(currrentPoint: touch.location(in: self))
@@ -473,14 +473,14 @@ final class Carousel: UIView, TimerSwitch {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
+        //super.touchesEnded(touches, with: event)
         print("end default")
         touchesEnded()
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         print("cancel touch")
-        super.touchesCancelled(touches, with: event)
+        //super.touchesCancelled(touches, with: event)
         touchesEnded()
     }
     
