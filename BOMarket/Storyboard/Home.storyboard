@@ -45,11 +45,8 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="top_icon" translatesAutoresizingMaskIntoConstraints="NO" id="YhI-q1-mPL">
-                                                <rect key="frame" x="117" y="0.0" width="180" height="50"/>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="4V8-yd-8Vw"/>
-                                                </constraints>
+                                                <rect key="frame" x="107" y="10" width="200" height="35"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </imageView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shopcart" translatesAutoresizingMaskIntoConstraints="NO" id="bG1-AQ-4uN">
                                                 <rect key="frame" x="369" y="12" width="35" height="30"/>
@@ -59,12 +56,13 @@
                                                 </constraints>
                                             </imageView>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="YhI-q1-mPL" firstAttribute="centerX" secondItem="Ng1-1q-LbZ" secondAttribute="centerX" id="2aR-na-gy9"/>
                                             <constraint firstAttribute="trailing" secondItem="bG1-AQ-4uN" secondAttribute="trailing" constant="10" id="FfN-bp-C4p"/>
                                             <constraint firstAttribute="height" constant="50" id="NnL-qz-4wW"/>
-                                            <constraint firstItem="YhI-q1-mPL" firstAttribute="top" secondItem="Ng1-1q-LbZ" secondAttribute="top" id="ZAH-ev-9SZ"/>
+                                            <constraint firstItem="YhI-q1-mPL" firstAttribute="top" secondItem="Ng1-1q-LbZ" secondAttribute="top" constant="10" id="ZAH-ev-9SZ"/>
+                                            <constraint firstAttribute="bottom" secondItem="YhI-q1-mPL" secondAttribute="bottom" constant="5" id="rKH-RO-jQ8"/>
                                             <constraint firstItem="bG1-AQ-4uN" firstAttribute="top" secondItem="Ng1-1q-LbZ" secondAttribute="top" constant="12" id="t8F-SK-WKI"/>
                                         </constraints>
                                     </view>
@@ -98,7 +96,7 @@
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </stackView>
                                         </subviews>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="UpF-i2-3u8" firstAttribute="leading" secondItem="4DP-8d-2oP" secondAttribute="leading" id="dPJ-sO-AEt"/>
                                             <constraint firstAttribute="height" constant="40" id="fBL-AC-H4D"/>
@@ -114,7 +112,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemGray4Color"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="Ng1-1q-LbZ" firstAttribute="leading" secondItem="6Ai-qY-3rx" secondAttribute="leading" id="7yW-GS-wfm"/>
                                     <constraint firstItem="Ng1-1q-LbZ" firstAttribute="top" secondItem="6Ai-qY-3rx" secondAttribute="top" id="Cao-kn-AoZ"/>
@@ -127,7 +125,7 @@
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="kQM-XI-3Ad"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="systemGray4Color"/>
                         <constraints>
                             <constraint firstItem="6Ai-qY-3rx" firstAttribute="leading" secondItem="kQM-XI-3Ad" secondAttribute="leading" id="46q-t8-vEc"/>
                             <constraint firstItem="6Ai-qY-3rx" firstAttribute="top" secondItem="kQM-XI-3Ad" secondAttribute="top" id="QxH-72-43f"/>
@@ -155,7 +153,7 @@
         <image name="search" width="25" height="25"/>
         <image name="shopcart" width="50" height="50"/>
         <image name="tab_home" width="25" height="25"/>
-        <image name="top_icon" width="180" height="180"/>
+        <image name="top_icon" width="200" height="200"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

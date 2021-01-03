@@ -10,6 +10,8 @@ import UIKit
 
 final class MyRecognizer: UIGestureRecognizer {
     
+    var trackedTouch: UITouch? = nil
+    
     var mainView: Carousel!
     
     public func setMainView(mainView: Carousel){
@@ -17,29 +19,45 @@ final class MyRecognizer: UIGestureRecognizer {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
-        //super.touchesBegan(touches, with: event)
-        if event.touches(for: self)?.count == 1, let touch = touches.first {
-            mainView?.touchesBegan(startPoint: touch.location(in: mainView))
+        if touches.count != 1 {
+            self.state = .failed
+        }
+        if self.trackedTouch == nil {
+            if let firstTouch = touches.first{
+                self.trackedTouch = firstTouch
+                mainView?.touchesBegan(startPoint: firstTouch.location(in: self.view))
+                state = .began
+            }
+        }else {
+            for touch in touches {
+                if touch != self.trackedTouch {
+                    self.ignore(touch, for: event)
+                }
+            }
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
-        //super.touchesMoved(touches, with: event)
-        if event.touches(for: self)?.count == 1, let touch = touches.first {
+        if let touch = touches.first {
             print("num: \(touches.count)")
-            mainView?.touchesMoved(currrentPoint: touch.location(in: mainView))
+            mainView?.touchesMoved(currrentPoint: touch.location(in: self.view))
         }
+        state = .changed
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent) {
-        //super.touchesEnded(touches, with: event)
         mainView.touchesEnded()
+        state = .ended
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
         print("cancel touch")
-        //super.touchesCancelled(touches, with: event)
         mainView.touchesEnded()
+        state = .cancelled
+    }
+    
+    override func reset() {
+        self.trackedTouch = nil
     }
     
     
@@ -456,7 +474,7 @@ final class Carousel: UIView, TimerSwitch {
     
     
     
-    
+    /*
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         //super.touchesBegan(touches, with: event)
         if event?.touches(for: self)?.count==1, let touch = touches.first {
@@ -483,7 +501,7 @@ final class Carousel: UIView, TimerSwitch {
         //super.touchesCancelled(touches, with: event)
         touchesEnded()
     }
-    
+    */
     
     
     

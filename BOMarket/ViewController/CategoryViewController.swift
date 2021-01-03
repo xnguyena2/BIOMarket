@@ -12,7 +12,7 @@ class CategoryViewController: UIViewController {
     
     let AllCategory:[CategoryDrinks] = [
         CategoryDrinks(Title: "Đồ Uống Có Cồn", ImageName: "alcohol_drinks", DrinkType: .Alcohol),
-        CategoryDrinks(Title: "Nước Giải Khác", ImageName: "beverage", DrinkType: .Beverage),
+        CategoryDrinks(Title: "Nước Giải Khát", ImageName: "beverage", DrinkType: .Beverage),
         CategoryDrinks(Title: "Nước Lọc", ImageName: "fresh_water", DrinkType: .FreshWater),
         CategoryDrinks(Title: "Đồ Uống Nhập Ngoại", ImageName: "internationnal_drinks", DrinkType: .International),
         CategoryDrinks(Title: "Nước Ép Trái Cây", ImageName: "juice_fruit", DrinkType: .JuiceFruit)
