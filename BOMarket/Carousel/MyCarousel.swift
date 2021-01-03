@@ -39,7 +39,6 @@ final class MyRecognizer: UIGestureRecognizer {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent) {
         if let touch = touches.first {
-            print("num: \(touches.count)")
             mainView?.touchesMoved(currrentPoint: touch.location(in: self.view))
         }
         state = .changed
@@ -51,7 +50,6 @@ final class MyRecognizer: UIGestureRecognizer {
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent) {
-        print("cancel touch")
         mainView.touchesEnded()
         state = .cancelled
     }
@@ -179,7 +177,6 @@ final class CarouselItem {
     
     public func ResetView(containerWidth:CGFloat, containerHeight:CGFloat){
         if self.containerWidth != containerWidth || self.containerHeight != containerHeight{
-            //print("resettttttttt\(containerWidth)")
             self.containerWidth = containerWidth
             self.containerHeight = containerHeight
             ResetPosition()
@@ -286,7 +283,6 @@ final class CarouselItem {
         }, completion: {result in
             self.currentSide = .Left
             self.delegate.TimerSwitch(enable: true)
-            //print("Go to Left")
         })
     }
     
@@ -297,7 +293,6 @@ final class CarouselItem {
         }, completion: {result in
             self.currentSide = .Right
             self.delegate.TimerSwitch(enable: true)
-            //print("Goto Right")
         })
     }
     
@@ -308,7 +303,6 @@ final class CarouselItem {
         }, completion: {result in
             self.currentSide = .Center
             self.delegate.TimerSwitch(enable: true)
-            //print("Go to Center")
         })
     }
     
@@ -323,13 +317,11 @@ final class CarouselItem {
         startPoint = nil
         startFrame = nil
         if timeEplase  == 0{
-            print("you touch too fast!!!!!!!!!!")
             return (currentSide, 0)
         }
         
         if currentSide == .Center{
             let speed = Double(abs(translateOffet))/timeEplase
-            print("speed: \(speed)")
             if translateOffet > containerWidth/2 || (translateOffet>0 && speed > goNextSpeed){
                 let dur = Double(containerWidth - translateOffet)/speed
                 let interval = getCorrectDuration(dur)
@@ -471,41 +463,6 @@ final class Carousel: UIView, TimerSwitch {
         print("done setup layout!")
     }
     
-    
-    
-    
-    /*
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //super.touchesBegan(touches, with: event)
-        if event?.touches(for: self)?.count==1, let touch = touches.first {
-            touchesBegan(startPoint: touch.location(in: self))
-        }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //super.touchesMoved(touches, with: event)
-        if event?.touches(for: self)?.count==1, let touch = touches.first {
-            print("default-num: \(touches.count)")
-            touchesMoved(currrentPoint: touch.location(in: self))
-        }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //super.touchesEnded(touches, with: event)
-        print("end default")
-        touchesEnded()
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("cancel touch")
-        //super.touchesCancelled(touches, with: event)
-        touchesEnded()
-    }
-    */
-    
-    
-    
-    
     // time go next
     var timer:Timer?
     func createTimer(){
@@ -513,7 +470,6 @@ final class Carousel: UIView, TimerSwitch {
     }
     
     @objc func runTimedCode(){
-        //print("go next")
         if !touching && listCrs.count > 0{
             if goNext{
                 goNext = false
@@ -605,7 +561,6 @@ final class Carousel: UIView, TimerSwitch {
         touching = true
         if finishedAnimation {
             delegate?.ChangeScrollState(enable: false)
-            print("Began")
             if currentIndex != -1{
                 self.startPoint = startPoint
                 startTime = DispatchTime.now()
@@ -615,7 +570,6 @@ final class Carousel: UIView, TimerSwitch {
     }
     
     public func touchesMoved(currrentPoint: CGPoint){
-        print("Moved")
         if currentIndex != -1 && finishedAnimation {
             let direction = listCrs[currentIndex].TouchesMoved(currentPoint: currrentPoint)
             if direction != currentDirection {
@@ -639,7 +593,6 @@ final class Carousel: UIView, TimerSwitch {
     }
     
     public func touchesEnded(){
-        print("End")
         finishedAnimation = false
         delegate?.ChangeScrollState(enable: true)
         currentDirection = .Center
@@ -649,7 +602,6 @@ final class Carousel: UIView, TimerSwitch {
             
             let (moveDir, mainDuration) = listCrs[currentIndex].EndTouched(direction: .Center, timeEplase: timeElapse, mainDuration: 0)
             if mainDuration == 0 {
-                print("Something wrong!")
                 finishedAnimation = true
                 return
             }
