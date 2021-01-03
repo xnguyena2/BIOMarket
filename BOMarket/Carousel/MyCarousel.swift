@@ -519,7 +519,6 @@ final class Carousel: UIView, TimerSwitch {
     
     @objc func checkAction(sender : UITapGestureRecognizer) {
         // Do what you want
-        print("touch")
     }
     
     private func setupLayout(){
